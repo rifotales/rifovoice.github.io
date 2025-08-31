@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Постановка голоса — Теплый курс</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poetsen+One&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg: #fffbf6; /* warm beige */
+            --card: #fffdfb;
+            --muted: #7f6b6b;
+            --accent: #e5a89b; /* dusty rose */
+            --accent-2: #d4cbe5; /* soft lilac */
+            --ink: #3b2b2b; /* soft charcoal */
+            --radius: 20px;
+            --shadow: 0 10px 30px rgba(59,43,43,0.06);
+            --shadow-subtle: 0 4px 12px rgba(59,43,43,0.04);
+        }
+        *{
+            box-sizing:border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        html, body{
+            height:100%;
+        }
+        body{
+            margin:0;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(1200px 600px at 10% 10%, var(--accent) 0%, transparent 15%),
+                        radial-gradient(1000px 500px at 90% 90%, var(--accent-2) 0%, transparent 18%),
+                        var(--bg);
+            color:var(--ink);
+            padding:40px;
+            line-height: 1.6;
+        }
+        .container{
+            max-width:1100px;
+            margin:0 auto;
+        }
+        header{
+            display:flex;
+            gap:24px;
+            align-items:center;
+            margin-bottom:32px;
+        }
+        .logo{
+            width:80px;
+            height:80px;
+            border-radius:var(--radius);
+            background:linear-gradient(135deg,#fff,#fff9f7);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            box-shadow:var(--shadow-subtle);
+        }
+        .logo svg{
+            width:52px;
+            height:52px;
+        }
+        h1{
+            font-family: 'Poetsen One', sans-serif;
+            font-size:36px;
+            margin:0;
+        }
+        p.lead{
+            margin:8px 0 0;
+            color:var(--muted);
+            font-size:18px;
+        }
+
+        .hero-section{
+            display:grid;
+            grid-template-columns:1fr 400px;
+            gap:32px;
+            margin-bottom:40px;
+        }
+        .card{
+            background:var(--card);
+            border-radius:var(--radius);
+            padding:24px;
+            box-shadow:var(--shadow);
+            border:1px solid rgba(0,0,0,0.03);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(59,43,43,0.08);
+        }
+
+        .schedule{
+            display:grid;
+            grid-template-columns:1fr;
+            gap:20px;
+        }
+        .week-item{
+            display:flex;
+            gap:16px;
+            align-items:flex-start;
+        }
+        .week-num{
+            min-width:64px;
+            height:64px;
+            border-radius:16px;
+            background:var(--accent);
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:700;
+            font-size:24px;
+            box-shadow:var(--shadow-subtle);
+        }
+        .week-content{
+            flex:1;
+        }
+        .meta{
+            color:var(--muted);
+            font-size:14px;
+            margin-top:8px;
+        }
+
+        table.plan{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:16px;
+        }
+        table.plan th, table.plan td{
+            padding:14px;
+            border-bottom:1px solid rgba(60,40,40,0.06);
+            text-align:left;
+        }
+        table.plan th{
+            font-weight:600;
+            background:rgba(0,0,0,0.02);
+        }
+        table.plan tr:last-child td {
+            border-bottom: none;
+        }
+
+        .exams{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:16px;
+        }
+        .exam-card{
+            padding:18px;
+            border-radius:16px;
+            background:linear-gradient(180deg,#fff,#fff8f5);
+            box-shadow:var(--shadow-subtle);
+            transition: transform 0.2s ease-in-out;
+        }
+        .exam-card:hover {
+            transform: scale(1.02);
+        }
+
+        .card-footer{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:24px;
+        }
+        .btn{
+            background:linear-gradient(180deg,#ffd9cc,#ffbfa8);
+            border:none;
+            padding:12px 24px;
+            border-radius:16px;
+            cursor:pointer;
+            font-weight:600;
+            color:var(--ink);
+            box-shadow:var(--shadow-subtle);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(59,43,43,0.06);
+        }
+
+        /* gentle animations */
+        .float{
+            animation:float 6s ease-in-out infinite;
+        }
+        @keyframes float{
+            0%{transform:translateY(0)}
+            50%{transform:translateY(-8px)}
+            100%{transform:translateY(0)}
+        }
+
+        /* accordion */
+        .accordion-item{
+            border-radius:16px;
+            overflow:hidden;
+            border:1px solid rgba(0,0,0,0.04);
+            margin-bottom:16px;
+            background: var(--card);
+            box-shadow: var(--shadow-subtle);
+        }
+        .accordion-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:16px;
+            cursor:pointer;
+            font-weight:600;
+            transition: background 0.2s ease-in-out;
+        }
+        .accordion-header:hover {
+            background:rgba(0,0,0,0.01);
+        }
+        .accordion-body{
+            max-height:0;
+            overflow:hidden;
+            transition: max-height .4s ease, padding .4s ease;
+            padding:0 16px;
+        }
+        .accordion-body.open{
+            padding:16px;
+            max-height:600px;
+        }
+        .accordion-icon{
+            transition: transform .4s ease;
+        }
+        .accordion-body.open + .accordion-header .accordion-icon {
+            transform: rotate(90deg);
+        }
+
+        footer{
+            margin-top:40px;
+            color:var(--muted);
+            font-size:14px;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media(max-width:900px){
+            body{
+                padding:20px;
+            }
+            .hero-section{
+                grid-template-columns:1fr;
+            }
+            header{
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo float" aria-hidden="true">
+                <!-- gentle microphone icon -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 14a3.5 3.5 0 0 0 3.5-3.5V6.5A3.5 3.5 0 0 0 12 3h0a3.5 3.5 0 0 0-3.5 3.5v4A3.5 3.5 0 0 0 12 14z" stroke="#e5a89b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M19 11v1a7 7 0 0 1-14 0v-1" stroke="#e5a89b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <div>
+                <h1>Постановка голоса и техника речи — заботливый курс</h1>
+                <p class="lead">План на 12 недель: плавные задания, ежедневная практика и проверки — формат, понятный и новичкам, и продвинутым.</p>
+            </div>
+        </header>
+
+        <section class="hero-section">
+            <div class="card">
+                <h2 style="margin-top:0">Общий план курса</h2>
+                <p class="meta">Каждая неделя — маленький шаг: тема, материалы для чтения и короткие упражнения (5–20 минут).</p>
+
+                <div class="schedule">
+                    <!-- Weeks 1-6 -->
+                    <div class="week-item">
+                        <div class="week-num">1</div>
+                        <div class="week-content">
+                            <strong>Речевое дыхание</strong>
+                            <div class="meta">Чтение: вводные материалы по дыхательной технике. Упражнения: диафрагмальное дыхание (ложки, счёт, удержание).</div>
+                        </div>
+                    </div>
+
+                    <div class="week-item">
+                        <div class="week-num">2</div>
+                        <div class="week-content">
+                            <strong>Резонаторы</strong>
+                            <div class="meta">Чтение: как работают грудной и головной резонаторы. Упражнения: активация и переключение резонансов.</div>
+                        </div>
+                    </div>
+
+                    <div class="week-item">
+                        <div class="week-num">3</div>
+                        <div class="week-content">
+                            <strong>Диапазон</strong>
+                            <div class="meta">Чтение: методы расширения диапазона. Упражнения: постепенное повышение и понижение тона, безопасные разминки.</div>
+                        </div>
+                    </div>
+
+                    <div class="week-item">
+                        <div class="week-num">4</div>
+                        <div class="week-content">
+                            <strong>Артикуляция</strong>
+                            <div class="meta">Чтение: упражнения для чёткой произносительной базы. Упражнения: тренировка согласных и гласных, скороговорки.</div>
+                        </div>
+                    </div>
+
+                    <div class="week-item">
+                        <div class="week-num">5</div>
+                        <div class="week-content">
+                            <strong>Дикция</strong>
+                            <div class="meta">Чтение: приёмы развития дикции. Упражнения: контролируемые фразы и работа со скоростью речи.</div>
+                        </div>
+                    </div>
+
+                    <div class="week-item">
+                        <div class="week-num">6</div>
+                        <div class="week-content">
+                            <strong>Сложные слова и художественный текст</strong>
+                            <div class="meta">Чтение: подбор трудных слов и отрывков. Упражнения: разбор и прочтение художественных фрагментов.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="card">
+                <h3 style="margin-top:0">Проверки и экзамены</h3>
+                <p class="meta">Короткие еженедельные тесты помогают фиксировать прогресс. Ниже — рекомендуемый график проверок.</p>
+                <div class="exams">
+                    <div class="exam-card"><strong>Неделя 1</strong><div class="meta">Проверка дыхания: устная демонстрация 2 минут продвижения дыхания.</div></div>
+                    <div class="exam-card"><strong>Неделя 2</strong><div class="meta">Проверка резонаторов: переключение регистров в заданной фразе.</div></div>
+                    <div class="exam-card"><strong>Неделя 3</strong><div class="meta">Проверка диапазона: плавный переход от низкого к высокому тону.</div></div>
+                    <div class="exam-card"><strong>Неделя 4</strong><div class="meta">Произношение: чистота звуков в наборе слов.</div></div>
+                    <div class="exam-card"><strong>Неделя 5</strong><div class="meta">Дикция: скорость и чёткость в скороговорках.</div></div>
+                    <div class="exam-card"><strong>Неделя 6</strong><div class="meta">Финальная: сложные слова и чтение художественного текста.</div></div>
+                </div>
+
+                <div class="card-footer">
+                    <div style="color:var(--muted);font-size:14px">Формат: коротко, практично, с поддержкой преподавателя</div>
+                    <button class="btn" onclick="document.getElementById('resources').scrollIntoView({behavior:'smooth'})">Ресурсы</button>
+                </div>
+            </aside>
+        </section>
+
+        <section class="card" style="margin-top:24px">
+            <h2 style="margin-top:0">Недели 7–12: интонация и работа с текстом</h2>
+            <table class="plan" aria-label="План недель 7-12">
+                <thead>
+                    <tr><th>Неделя</th><th>Тема</th><th>Что читать</th><th>Короткие упражнения</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>7</td><td>Орфоэпия</td><td>Правильное произношение слов и звуков</td><td>Упражнения на постановку ударений и звуков</td></tr>
+                    <tr><td>8</td><td>Интонация</td><td>Приёмы работы с интонацией в речи</td><td>Практика фраз с разным смысловым ударением</td></tr>
+                    <tr><td>9</td><td>Выразительное чтение</td><td>Методы логического чтения и пауз</td><td>Разбор абзацев, работа с паузами</td></tr>
+                    <tr><td>10</td><td>Работа с текстом</td><td>Анализ текста перед чтением</td><td>Разметка текста и репетиция</td></tr>
+                    <tr><td>11</td><td>Подача</td><td>Дикторская подача и работа с интонацией</td><td>Упражнения по подаче, эмоциональные пометки</td></tr>
+                    <tr><td>12</td><td>Заключение</td><td>Советы мастерства и дальнейшие шаги</td><td>Рефлексия: запись и сравнение прогресса</td></tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top:20px;color:var(--muted);font-size:14px">Каждую тему следует практиковать короткими ежедневными сессиями (5–20 минут). Записывайте себя и слушайте — это самый надёжный путь прогресса.</div>
+        </section>
+
+        <section id="resources" style="margin-top:24px">
+            <h2 style="margin-top:0">Ресурсы и заметки преподавателю</h2>
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><strong>Материалы для чтения</strong><div class="meta">Краткие статьи, упражнения и подборки слов</div></div>
+                    <div class="accordion-icon" aria-hidden="true">▸</div>
+                </div>
+                <div class="accordion-body" role="region">
+                    <p>Подберите лёгкие и доступные тексты: детские сказки, уривки из прозы и диалоги. Для дыхания — инструкции по диафрагмальному дыханию и простые схемы счёта. Для резонаторов — упражнения на гудение и голосовые глиссандо.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion(this)">
+                    <div><strong>Практические советы</strong><div class="meta">Как вести занятие — мягко и по шагам</div></div>
+                    <div class="accordion-icon" aria-hidden="true">▸</div>
+                </div>
+                <div class="accordion-body" role="region">
+                    <ul>
+                        <li>Начинайте с 5 минут активации тела и дыхания.</li>
+                        <li>Давайте упражнения в формате 5–10 минут, чтобы участники не уставали.</li>
+                        <li>Фиксируйте прогресс короткими записями каждую неделю.</li>
+                        <li>Подстраивайте темп под группу — цель не показать скорость, а стабильность.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Адаптированный план на 12 недель. Можно экспортировать как PDF или встроить в LMS.</p>
+            <p style="margin-top:6px">Если хотите — подготовлю версию с распечаткой для учеников и мини-квестами на каждый день.</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleAccordion(el){
+            const body = el.nextElementSibling;
+            const isOpen = body.classList.contains('open');
+            if(isOpen){
+                body.classList.remove('open');
+            } else {
+                body.classList.add('open');
+            }
+        }
+    </script>
+</body>
+</html>
